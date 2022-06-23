@@ -1,5 +1,5 @@
-#Async Python for Complete Dummies
-##(No offence intended: I too am a dummy!)
+# Async Python for Complete Dummies
+## (No offence intended: I too am a dummy!)
 
 Like many people, I've often struggled with Python's async style. Here is
 a collection of programs, which are intended to serve as 'cheatsheets', or quick reference guides
