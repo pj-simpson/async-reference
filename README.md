@@ -4,7 +4,7 @@
 Like many people, I've often struggled with Python's async style. Here is
 a collection of programs, which are intended to serve as 'cheatsheets', or quick reference guides
 for the different subject areas.
-I might update these from time-to-time, as a learn more. 
+I might update these from time-to-time, as I learn more. 
 
 The two most helpful articles I've found so far are: 
 
