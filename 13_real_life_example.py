@@ -187,7 +187,14 @@ async def create_release(release: str, artist_external_id: int) -> str:
                 INSERT INTO releases (title,year,link,external_id,artist_external_id,artist_id)
                 VALUES(?,?,?,?,?,?);
                 """,
-                (title, year, link, external_id, artist_external_id,artist_internal_id[0]),
+                (
+                    title,
+                    year,
+                    link,
+                    external_id,
+                    artist_external_id,
+                    artist_internal_id[0],
+                ),
             )
             await db.commit()
 

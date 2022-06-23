@@ -13,21 +13,19 @@ from starlette.responses import JSONResponse
 
 # https://docs.sqlalchemy.org/en/14/orm/extensions/asyncio.html
 
-engine = create_async_engine(
-        "sqlite+aiosqlite:///bands.db"
-)
+engine = create_async_engine("sqlite+aiosqlite:///bands.db")
 
 Base = declarative_base()
 
 
 class JsonMixin(object):
-
     def resp_for_json(self):
         resp_dict = self.__dict__.copy()
-        del resp_dict['_sa_instance_state']
+        del resp_dict["_sa_instance_state"]
         return resp_dict
 
-class Artist(Base,JsonMixin):
+
+class Artist(Base, JsonMixin):
     __tablename__ = "artist"
 
     id = Column(Integer, primary_key=True)
@@ -39,8 +37,7 @@ class Artist(Base,JsonMixin):
     __mapper_args__ = {"eager_defaults": True}
 
 
-
-class Releases(Base,JsonMixin):
+class Releases(Base, JsonMixin):
     __tablename__ = "releases"
 
     id = Column(Integer, primary_key=True)
@@ -48,12 +45,11 @@ class Releases(Base,JsonMixin):
     year = Column(Integer)
     link = Column(String)
     external_id = Column(Integer)
-    artist_external_id = Column(Integer,ForeignKey("artist.external_id"))
+    artist_external_id = Column(Integer, ForeignKey("artist.external_id"))
     artist_id = Column(Integer, ForeignKey("artist.id"))
 
-async_session = sessionmaker(
-        engine, expire_on_commit=False, class_=AsyncSession
-    )
+
+async_session = sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
 
 app = Starlette()
 
@@ -68,7 +64,7 @@ async def artist_homepage(request):
     async with async_session() as session:
         result = await session.execute(select(Artist).where(Artist.id == artist_id))
         artist_result = result.mappings().one()
-        artist = artist_result['Artist']
+        artist = artist_result["Artist"]
     return JSONResponse(artist.resp_for_json())
 
 
@@ -79,11 +75,13 @@ async def release_list(request):
     """
     artist_id = request.path_params["artist_id"]
     async with async_session() as session:
-        result = await session.execute(select(Releases).where(Releases.artist_id == artist_id))
+        result = await session.execute(
+            select(Releases).where(Releases.artist_id == artist_id)
+        )
         release_result = result.mappings().all()
-        release_list  = []
+        release_list = []
         for item in release_result:
-            release = item['Releases']
+            release = item["Releases"]
             release_list.append(release.resp_for_json())
     return JSONResponse(release_list)
 
@@ -96,9 +94,11 @@ async def release_detail(request):
     """
     release_id = request.path_params["release_id"]
     async with async_session() as session:
-        result = await session.execute(select(Releases).where(Releases.id == release_id))
+        result = await session.execute(
+            select(Releases).where(Releases.id == release_id)
+        )
         release_result = result.mappings().one()
-        release = release_result['Releases']
+        release = release_result["Releases"]
     return JSONResponse(release.resp_for_json())
 
 

@@ -15,7 +15,6 @@ from starlette.responses import JSONResponse
 # https://github.com/encode/databases asyncio support for dtabases using SQLAlchemy Core Expression Language
 
 
-
 # Connect to the database
 db = Database("sqlite+aiosqlite:///bands.db")
 
@@ -30,7 +29,6 @@ artist = Table(
     Column("biog", String()),
     Column("releases_uri", String()),
     Column("external_id", Integer),
-
 )
 
 releases = Table(
@@ -42,7 +40,7 @@ releases = Table(
     Column("link", String()),
     Column("external_id", Integer),
     Column("artist_external_id", Integer, ForeignKey("artist.external_id")),
-    Column("artist_id",Integer,ForeignKey("artist.id"))
+    Column("artist_id", Integer, ForeignKey("artist.id")),
 )
 
 # Declare a Starlette Application
